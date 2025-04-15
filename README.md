@@ -24,7 +24,7 @@ An example source data is displayed in this table which has records on a daily b
 | profile id | date       | followers | post | engagement | reach | impression |
 |------------|------------|-----------|------|------------|-------|------------|
 | profile 1  | 2024-01-07 | 300       | 0    | 0.0        | 0     | 0          |
-| profile 2  | 2024-01-08 | 350       | 1    | 3          | 1     | 2          |
+| profile 2  | 2024-01-08 | undefined       | 1    | 3          | 1     | 2          |
 
 In order to make the dataset less sparse and easier to model, we decided to aggregate the daily data into weekly data where each matrix represent the sum of that value for the entire week. This has significantly decrease the number of null values in the dataset as 7 null values in a week will be aggregated into 1 null value. The resulted aggregated processed table is shown: 
 
