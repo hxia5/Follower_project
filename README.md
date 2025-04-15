@@ -1,11 +1,11 @@
 # Capstone_Project_Engagement_Prediction
 
 ## 1. Problem Statement
-*Socialinsider* is a social media analytics company that provides data and services for users, like influencers and marketers, to compare performance across channels, get competitor analysis, benchmarks and listening insights. *Socialinsider* is trying to improve their product to gain and retain more customers. The goal of this project is to predict the number of engagement for each profile in order to give users more social media insights. 
+*Socialinsider* is a social media analytics company that provides data and services for users, like influencers and marketers, to compare performance across channels, get competitor analysis, benchmarks and listening insights. *Socialinsider* is trying to improve their product to gain and retain more customers. The goal of this project is to predict the future number of followers on a daily basis for a single profile. 
 
 ## 2. Methods and Data
 ### 2.1 Benchmark Studies
-There's no benchmark studies with similar goal and the data we are using. 
+There's no benchmark studies with similar goal and the data we are using. After discussed with our mentor, we decided to use linear regression as the baseline model.
 ### 2.2 Data
 The data we are using to train and test the model is the daily count data of Instagram profiles, spanning from 2023 Jan 1st to 2024 Dec 31st. It contains more than 33 million rows in total. 
 ### 2.3 EDA
@@ -24,45 +24,29 @@ An example source data is displayed in this table which has records on a daily b
 | profile id | date       | followers | post | engagement | reach | impression |
 |------------|------------|-----------|------|------------|-------|------------|
 | profile 1  | 2024-01-07 | 300       | 0    | 0.0        | 0     | 0          |
-| profile 2  | 2024-01-08 | undefined       | 1    | 3          | 1     | 2          |
+| profile 2  | 2024-01-08 | undefined | 1    | 3          | 1     | 2          |
 
-In order to make the dataset less sparse and easier to model, we decided to aggregate the daily data into weekly data where each matrix represent the sum of that value for the entire week. This has significantly decrease the number of null values in the dataset as 7 null values in a week will be aggregated into 1 null value. The resulted aggregated processed table is shown: 
-
-| profile id | date       | followers | post | engagement per post | reach | impression | monthly average engagement per post |
-|------------|------------|-----------|------|----------------------|-------|------------|-------------------------------------|
-| profile 1  | 2024-01-07 | 300       | 3    | 300                  | 20    | 10         | 500                                 |
-| profile 2  | 2024-01-14 | 300       | 2    | 150                  | 50    | 12         | 500                                 |
-
-`Feature Engineering: `
-
-New features such as monthly average engagement per post are added to capture more general information on past values. In addition, lag features, which are features that store past values of existing variables in order to predict future values, are added to emphasize more recent past values (up to past 4 weeks). These lag features are created for followers, reach and impression. Lag 1 features of a variable is just the value of the variable from last week. From the example below, we can see that lag 1 feature of followers in week 2 is the value of followers in week 1. This applies to reach and impression as well. These lag feature value will be null if past week's value is missing. In this case, if all variables of a profile have missing values for the same week (in one row of data), the entire row will be dropped to avoid unuseful information. 
-
-| profile id | date       | followers | followers_lag1 | reach | reach_lag1 | impression | impression_lag1 |
-|------------|------------|-----------|------|----------------------|-------|------------|-------------------------------------|
-| profile 1  | 2024-01-07 | 300       | -    | 300                  | -    | 10         | -                                 |
-| profile 1  | 2024-01-14 | 500       | 300    | 150                  | 300    | 12         | 10                                 |
-
-Target variables are also adapted from `engagement per post` and named as `engagement future 7 days`, `engagement future 14 days`, `engagement future 21 days`, `engagement future 28 days`. These 4 target variables record the future value of `engageent per post` in the according future windows and will be used separately for each training models. 
+In order to make the dataset less sparse and easier to model, we first replace all "undefinded" as null value, and filled all nul value with the nearest vaid data in front of the null value. Then, since the dataset is too large, we aggregate the daily data into monthly and weekly data (simply use the last datapoint in that month or week) to testify which model we should use. The result shows that AutoTS is the best model. After that, we performed a daily pipeline to make prediction on sigle profile.
+ 
 
 ### 2.5 Modeling
 
-`Removing unusual rows`: If all variables values are missing in the same row, the row will be dropped as it is not providing useful information for training. 
+`Removing unusual rows`: Replace all "undefinded" as null value, and filled all nul value with the nearest vaid data in front of the null value. 
 
-`Chronological Train Test Split`: Dataset is splitted into training and testing set in a chronological order. That is, dates before the cutoff date (2024-07-30) will be in the training set and dates after that will be in the testing set. 
+`Train Test Split`: AutoTS Requires a 70-80% train-test split, which is reasonable , and we set it as 75%.
 
-`Linear Regression Model`: Four different linear regression models are trained for each targeted future windows of predicting engagement per post. 
+`Linear Regression Model`: Baseline model. 
+
+`AutoTS Model`: Final model. 
 
 ## 3. Results
 
-Since an industry benchmark was not found, the model results are compared to a baseline model we made. The baseline model is a linear regression model which predicts for engagement per post in the next 7 days without any feature engineering we did. The evaluation matric results are demonstrated in the table below: 
+Since an industry benchmark was not found, the model results are compared to a baseline model we made. The baseline model is a linear regression and our evaluation matrixs include MAE and MSE. We use the best layer of data we have, which is the dataset with profiles that have more than 365 days record to test on linear regression and AutoTS model, and the results show that AutoTS is about two to three times better than basekine model. After we create a daily pipeline, since it will be using more datapoints and be feasible for prediction on single profile, we got the best result:
 
-| Model         | RMSE       | R²     |
-|---------------|------------|--------|
-| baseline 7d   | 148560.38  | 0.41   |
-| future 7d     | -55%       | 115%   |
-| future 14d    | -51%       | 110%   |
-| future 21d    | -50%       | 109%   |
-| future 28d    | -45%       | 104%   |
+|               | Monthly LR       | Monthly AutoTS     | Weekly AutoTS     | Daily AutoTS     |
+|---------------|------------------|--------------------|-------------------|------------------|
+| Mean of MAE   | 1                | 41.11%             |45.73%             |1.29%             |
+| Mean of MSE   | 1                | 29.62%             |35.16%             |0.0008%           |
 
 `Improvement in RMSE:` From the figure below, we can see that RMSE dropped for approximately 50% for all 4 trained models. This is a significant improvement in the model performance as a lower RMSE indicates better performance. 
 
@@ -92,4 +76,4 @@ To get the prediction of engagement for certain account, run the python notebook
 For more information about prediction process, go to [here](https://github.com/XueqingWu/Capstone_Project_Engagement_Prediction/tree/main/model_prediction_pipeline)
 
 ## 5. Deliverables
-The prediction pipeline will be integrated to *Socialinsider*'s website as an API. We will deliver the prediction pipeline (`engagement_model_prediction_pipeline.ipynb`) to our client. 
+The prediction pipeline will be integrated to *Socialinsider*'s website as an API. We will deliver the prediction pipeline (`daily_pipeline final.ipynb`) to our client. 
