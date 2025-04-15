@@ -59,21 +59,8 @@ Since an industry benchmark was not found, the model results are compared to a b
 
 ## 4. Technical Documents
 ### 4.1 Files Included and How to Replicate
-The repo contains the `model_training_pipeline` and `model_prediction_pipeline`. 
-- **model training pipeline**
+The repo contains the data we use for whole procedure in `ig_data-2023` and `ig_data-2024`(only one month data in each folder since the whole dataset is too large and can't be pushed here). The file `between_365_300_data.csv` is the example data we prepared to use the deliverable, which created through our `Data Preprocessing and Modeling/data preprocessing.ipynb`. We also uploaded monthly and weekly pipeline under folder `Data Preprocessing and Modeling/`. The file `Deliverable/daily_pipeline final.ipynb` is the final deliverable we will deliver to our client.
 
-It includes the Jupyter Notebook `engagement_model(1).ipynb` that contains the process to train the model. The output of this file will be 4 exported models and an exported scaler.
-
-To get the training model, get `ig_data-2024` and `ig_data-2023` (not included in this repo due to data size). Put it in the same folder as `engagement_model(1).ipynb`. Run the Jupyter Notebook `engagement_model(1).ipynb`. 
-
-- **model prediction pipeline** It contains: 
-    - Example data for 4 months in `ig_data-2024`
-    - Models and scalers that will be used in the prediction pipeline in `models` folder
-    - The Jupyter Notebook that contains the prediction pipeline in `engagement_model_prediction_pipeline.ipynb`
-
-To get the prediction of engagement for certain account, run the python notebook `engagement_model_prediction_pipeline.ipnyb`. This notebook reads the example data from the folder `ig_data-2024` and load the pretrained models from `models` folder.
-
-For more information about prediction process, go to [here](https://github.com/XueqingWu/Capstone_Project_Engagement_Prediction/tree/main/model_prediction_pipeline)
-
+To use notebook under `Data Preprocessing and Modeling` folder, you will need whole dataset and please let us know in order to provide whole dataset. To run the Deliverable notebook, go to [here](https://drive.google.com/file/d/10GnhiTeR5adIZSYNqj65DtiQ8lg5L2lh/view?usp=sharing) to download the dataset in to this folder and simply install the required packages then click run.
 ## 5. Deliverables
 The prediction pipeline will be integrated to *Socialinsider*'s website as an API. We will deliver the prediction pipeline (`daily_pipeline final.ipynb`) to our client. 
