@@ -59,7 +59,7 @@ Since an industry benchmark was not found, the model results are compared to a b
 
 ## 4. Technical Documents
 ### 4.1 Files Included and How to Replicate
-The repo contains the data we use for whole procedure in `ig_data-2023` and `ig_data-2024`(only one month data in each folder since the whole dataset is too large and can't be pushed here). The file `between_365_300_data.csv` is the example data we prepared to use the deliverable, which created through our `Data Preprocessing and Modeling/data preprocessing.ipynb`. We also uploaded monthly and weekly pipeline under folder `Data Preprocessing and Modeling/`. The file `Deliverable/daily_pipeline final.ipynb` is the final deliverable we will deliver to our client.
+The repo doesn't contains the data we use for whole procedure since the whole dataset is too large and can't be pushed here. The file `between_365_300_data.csv` is the example data we prepared to use the deliverable, which created through our `Data Preprocessing and Modeling/data preprocessing.ipynb` and can be found through the google drive link below. We also uploaded monthly and weekly pipeline under folder `Data Preprocessing and Modeling/`. The file `Deliverable/daily_pipeline final.ipynb` is the final deliverable we will deliver to our client.
 
 To use notebook under `Data Preprocessing and Modeling` folder, you will need whole dataset and please let us know in order to provide whole dataset. To run the Deliverable notebook, go to [here](https://drive.google.com/file/d/10GnhiTeR5adIZSYNqj65DtiQ8lg5L2lh/view?usp=sharing) to download the dataset in to this folder and simply install the required packages then click run.
 ## 5. Deliverables
