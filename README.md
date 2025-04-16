@@ -48,14 +48,6 @@ Since an industry benchmark was not found, the model results are compared to a b
 | Mean of MAE   | 1                | 41.11%             |45.73%             |1.29%             |
 | Mean of MSE   | 1                | 29.62%             |35.16%             |0.0008%           |
 
-`Improvement in RMSE:` From the figure below, we can see that RMSE dropped for approximately 50% for all 4 trained models. This is a significant improvement in the model performance as a lower RMSE indicates better performance. 
-
-<img width="595" alt="Screen Shot 2025-04-14 at 5 39 25 PM" src="https://github.com/user-attachments/assets/d27c0c3a-21c5-4205-8226-5fa044f2b214" />
-
-`Improvement in R²: ` From the figure below, we can see that R² improved for more than 100% for all 4 trained models. They all reached a value above 0.83 which is considered as a very good fit of the data, especially when compared to the original baseline R² which is 0.41. 
-
-<img width="595" alt="Screen Shot 2025-04-14 at 5 40 28 PM" src="https://github.com/user-attachments/assets/e2109bd3-0384-436c-8163-b8ce1c87a488" />
-
 
 ## 4. Technical Documents
 ### 4.1 Files Included and How to Replicate
